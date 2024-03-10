@@ -1,0 +1,31 @@
+[package]
+name = "stomp-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait.workspace = true
+clap.workspace = true
+stomp = { version = "0.1.0", path = "../stomp" }
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+criterion = { version = "0.5.1", features = ["async_tokio"] }
+futures.workspace = true
+tracing-test = "0.2.4"
+
+[lib]
+name = "stompserver"
+path = "src/lib.rs"
+
+[[bin]]
+name = "stomp-server"
+path = "src/main.rs"
+
+[[bench]]
+name = "stomp"
+harness = false

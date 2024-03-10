@@ -1,0 +1,19 @@
+[package]
+name = "stomp-scale"
+version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait.workspace = true
+balter = "=0.3.1"
+futures.workspace = true
+stomp = { version = "0.1.0", path = "../stomp" }
+stomp-server = { version = "0.1.0", path = "../stomp-server" }
+tokio.workspace = true

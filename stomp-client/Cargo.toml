@@ -1,0 +1,20 @@
+[package]
+name = "stomp-client"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.80"
+async-trait.workspace = true
+clap.workspace = true
+dirs = "5.0.1"
+rustyline = "13.0.0"
+stomp = { version = "0.1.0", path = "../stomp" }
+strum.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-appender = "0.2.3"
+tracing-subscriber.workspace = true
+uuid.workspace = true

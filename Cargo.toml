@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "stomp",
+    "stomp-client", "stomp-scale",
+    "stomp-server",
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = [
+  "garypen <garypen@gmail.com>",
+]
+license = "Apache-2.0"
+repository = "https://github.com/garypen/stomp"
+homepage = "https://github.com/garypen/stomp"
+documentation = "https://github.com/garypen/stomp#readme"
+edition = "2021"
+
+[workspace.dependencies]
+async-trait = "0.1.77"
+clap = { version = "4.5.1", features = ["derive"] }
+futures = "0.3.30"
+strum = { version = "0.26.1", features = ["derive"] }
+tokio = { version = "1.36.0", features = ["full"] }
+tracing = { version = "0.1.40", features = ["log"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json"] }
+uuid = { version = "1.7.0", features = ["v4"] }
