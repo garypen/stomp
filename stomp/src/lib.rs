@@ -26,8 +26,8 @@ pub use net::Server;
 pub use net::ServerCommandProcessor;
 pub use net::SubscriptionMap;
 pub(crate) use parser::parse_frame;
-pub use sm::StompOutput;
-pub use sm::StompState;
+pub use sm::stomp::Output;
+pub use sm::stomp::State;
 
 /// ClientCommands
 ///
@@ -48,19 +48,19 @@ pub enum ClientCommand {
     Unsubscribe,
 }
 
-impl From<ClientCommand> for sm::StompInput {
+impl From<ClientCommand> for sm::stomp::Input {
     fn from(value: ClientCommand) -> Self {
         match &value {
-            ClientCommand::Connect | ClientCommand::Stomp => sm::StompInput::Connect,
-            ClientCommand::Disconnect => sm::StompInput::Disconnect,
-            ClientCommand::Send => sm::StompInput::Send,
-            ClientCommand::Subscribe => sm::StompInput::Subscribe,
-            ClientCommand::Unsubscribe => sm::StompInput::Unsubscribe,
-            ClientCommand::Ack => sm::StompInput::Ack,
-            ClientCommand::Nack => sm::StompInput::Nack,
-            ClientCommand::Begin => sm::StompInput::Begin,
-            ClientCommand::Commit => sm::StompInput::Commit,
-            ClientCommand::Abort => sm::StompInput::Abort,
+            ClientCommand::Connect | ClientCommand::Stomp => sm::stomp::Input::Connect,
+            ClientCommand::Disconnect => sm::stomp::Input::Disconnect,
+            ClientCommand::Send => sm::stomp::Input::Send,
+            ClientCommand::Subscribe => sm::stomp::Input::Subscribe,
+            ClientCommand::Unsubscribe => sm::stomp::Input::Unsubscribe,
+            ClientCommand::Ack => sm::stomp::Input::Ack,
+            ClientCommand::Nack => sm::stomp::Input::Nack,
+            ClientCommand::Begin => sm::stomp::Input::Begin,
+            ClientCommand::Commit => sm::stomp::Input::Commit,
+            ClientCommand::Abort => sm::stomp::Input::Abort,
         }
     }
 }

@@ -1,8 +1,8 @@
 use rust_fsm::*;
 
 state_machine! {
-    derive(Debug)
-    pub Stomp(Disconnected)
+    #[derive(Debug)]
+    pub stomp(Disconnected)
 
     Disconnected => {
         Connect => Connected [SendConnected],

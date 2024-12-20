@@ -21,14 +21,14 @@ use tokio::task::JoinSet;
 
 use crate::error::StompError;
 use crate::parse_frame;
-use crate::sm::Stomp;
-use crate::sm::StompInput;
-use crate::sm::StompOutput;
+use crate::sm::stomp::Impl as StompImpl;
+use crate::sm::stomp::Input as StompInput;
+use crate::sm::stomp::Output as StompOutput;
+use crate::sm::stomp::State as StompState;
 use crate::ClientCommand;
 use crate::Command;
 use crate::Frame;
 use crate::ServerCommand;
-use crate::StompState;
 use crate::Subscription;
 
 #[cfg(test)]
@@ -102,7 +102,7 @@ pub struct Server<Stream> {
 struct Connection<Stream> {
     stream: BufWriter<Stream>,
     buffer: BytesMut,
-    machine: StateMachine<Stomp>,
+    machine: StateMachine<StompImpl>,
 }
 
 // TODO: Make it possible to hold multiple connections at a time

@@ -10,7 +10,7 @@ anyhow = "1.0.80"
 async-trait.workspace = true
 clap.workspace = true
 dirs = "5.0.1"
-rustyline = "13.0.0"
+rustyline = "15.0.0"
 stomp = { version = "0.1.0", path = "../stomp" }
 strum.workspace = true
 tokio.workspace = true

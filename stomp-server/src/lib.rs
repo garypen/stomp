@@ -3,11 +3,11 @@ use std::str::FromStr;
 use std::sync::Arc;
 
 use stomp::Frame;
+use stomp::Output as StompOutput;
 use stomp::ServerCommand;
 use stomp::ServerCommandProcessor;
+use stomp::State as StompState;
 use stomp::StompError;
-use stomp::StompOutput;
-use stomp::StompState;
 use stomp::Subscription;
 use stomp::SubscriptionMap;
 use stomp::SubscriptionMode;
