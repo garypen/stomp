@@ -11,13 +11,12 @@ use stomp::Frame;
 use stomp::Header;
 use stomp::Server;
 use stomp::ServerCommand;
+use stomp::State as StompState;
 use stomp::StompError;
-use stomp::StompState;
 use stompserver::ServerProcessor;
 use tokio::net::TcpListener;
 use tokio::net::TcpStream;
 use tokio::runtime::Runtime;
-use tokio::sync::Mutex;
 use tokio::sync::RwLock;
 use tokio::task::JoinHandle;
 
@@ -68,10 +67,11 @@ fn do_something(c: &mut Criterion) {
                     Frame::disconnect::<&str>(Some("shutdown")),
                 ];
 
-                let connector = |addr: String| async { TcpStream::connect(addr).await };
+                let connector = Box::new(|addr: String| async { TcpStream::connect(addr).await });
                 let processor = || Box::new(ClientProcessor::new()) as BoxedClientProcessor;
                 let mut client = Client::new(connector, processor);
                 client.send(futures::stream::iter(operations)).await?;
+                my_counter.fetch_add(1, std::sync::atomic::Ordering::Acquire);
                 Ok::<(), StompError>(())
             });
     });

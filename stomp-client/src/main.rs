@@ -167,7 +167,6 @@ async fn process_line(line: String, my_txn_id: &Option<String>) -> Result<Frame>
                 if words.len() == 1 {
                     Frame::send(&words[0], vec![], &[])
                 } else if words.len() == 2 {
-                    // TODO figure out how to parse headers and specify a format
                     // Assume the headers argument is ,: separated. e.g.
                     let hdrs = parse_headers(words[1].clone())?;
                     Frame::send(&words[0], hdrs, &[])

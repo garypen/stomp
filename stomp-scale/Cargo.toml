@@ -12,7 +12,7 @@ edition.workspace = true
 
 [dependencies]
 async-trait.workspace = true
-balter = "0.8.0"
+balter = "0.8.2"
 futures.workspace = true
 stomp = { version = "0.1.0", path = "../stomp" }
 stomp-server = { version = "0.1.0", path = "../stomp-server" }
