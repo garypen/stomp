@@ -23,6 +23,7 @@ use nom::multi::many_till;
 use nom::sequence::separated_pair;
 use nom::sequence::terminated;
 use nom::IResult;
+use nom::Parser;
 
 #[cfg(test)]
 mod test;
@@ -31,7 +32,7 @@ type EolResult<'a> = IResult<&'a [u8], (Vec<&'a [u8]>, &'a [u8])>;
 
 fn parse_client_command(input: &[u8]) -> IResult<&[u8], ClientCommand> {
     let (remaining, s_cmd) =
-        terminated(take_while1(|c: u8| c.is_ascii_alphabetic()), line_ending)(input)?;
+        terminated(take_while1(|c: u8| c.is_ascii_alphabetic()), line_ending).parse(input)?;
     let cmd = ClientCommand::from_str(
         std::str::from_utf8(s_cmd)
             .map_err(|_e| nom::Err::Failure(Error::new(s_cmd, ErrorKind::Fail)))?,
@@ -42,7 +43,7 @@ fn parse_client_command(input: &[u8]) -> IResult<&[u8], ClientCommand> {
 
 fn parse_server_command(input: &[u8]) -> IResult<&[u8], ServerCommand> {
     let (remaining, s_cmd) =
-        terminated(take_while1(|c: u8| c.is_ascii_alphabetic()), line_ending)(input)?;
+        terminated(take_while1(|c: u8| c.is_ascii_alphabetic()), line_ending).parse(input)?;
     let cmd = ServerCommand::from_str(
         std::str::from_utf8(s_cmd)
             .map_err(|_e| nom::Err::Failure(Error::new(s_cmd, ErrorKind::Fail)))?,
@@ -84,13 +85,14 @@ fn parse_header(input: &[u8]) -> IResult<&[u8], Header> {
     let (remaining, (key, value)) = terminated(
         separated_pair(parse_header_key, tag(":"), opt(parse_header_value)),
         line_ending,
-    )(input)?;
+    )
+    .parse(input)?;
     let header = Header { key, value };
     Ok((remaining, header))
 }
 
 fn parse_headers(input: &[u8]) -> IResult<&[u8], Vec<Header>> {
-    let (remaining, headers) = many0(parse_header)(input)?;
+    let (remaining, headers) = many0(parse_header).parse(input)?;
     Ok((remaining, headers))
 }
 
@@ -103,7 +105,8 @@ fn parse_eols(input: &[u8]) -> EolResult<'_> {
     many_till(
         line_ending,
         alt((eof, complete(take_till(|c| c != b'\r' && c != b'\n')))),
-    )(input)
+    )
+    .parse(input)
 }
 
 pub fn parse_frame(input: &[u8]) -> IResult<&[u8], Frame> {
@@ -113,7 +116,7 @@ pub fn parse_frame(input: &[u8]) -> IResult<&[u8], Frame> {
     // just the end of this function.
     let (remaining, _) = parse_eols(input)?;
     let (remaining, command) = parse_command(remaining)?;
-    let (remaining, headers) = terminated(parse_headers, line_ending)(remaining)?;
+    let (remaining, headers) = terminated(parse_headers, line_ending).parse(remaining)?;
     // If our headers have a content-length, just read that many bytes
     let (remaining, body) = if let Some(length) = headers
         .iter()
@@ -123,9 +126,9 @@ pub fn parse_frame(input: &[u8]) -> IResult<&[u8], Frame> {
         let len = length
             .parse::<usize>()
             .map_err(|_e| nom::Err::Failure(Error::new(remaining, ErrorKind::Fail)))?;
-        terminated(take(len), tag(b"\x00"))(remaining)?
+        terminated(take(len), tag(&b"\x00"[..])).parse(remaining)?
     } else {
-        terminated(parse_body, tag(b"\x00"))(remaining)?
+        terminated(parse_body, tag(&b"\x00"[..])).parse(remaining)?
     };
     let (remaining, _) = parse_eols(remaining)?;
     let frame = Frame::new(command, headers, body.to_vec());
