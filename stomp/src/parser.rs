@@ -99,7 +99,7 @@ fn parse_body(input: &[u8]) -> IResult<&[u8], &[u8]> {
     Ok((remaining, b_value))
 }
 
-fn parse_eols(input: &[u8]) -> EolResult {
+fn parse_eols(input: &[u8]) -> EolResult<'_> {
     many_till(
         line_ending,
         alt((eof, complete(take_till(|c| c != b'\r' && c != b'\n')))),

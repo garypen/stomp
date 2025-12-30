@@ -751,8 +751,8 @@ impl Server<TcpStream> {
         self.set
             .join_next()
             .await
-            .ok_or(io::Error::new(io::ErrorKind::Other, "nothing found"))??
-            .map_err(|e| io::Error::new(io::ErrorKind::Other, e))
+            .ok_or(io::Error::other("nothing found"))??
+            .map_err(io::Error::other)
     }
 }
 
