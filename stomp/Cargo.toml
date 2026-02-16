@@ -7,13 +7,13 @@ edition = "2021"
 
 [dependencies]
 async-trait.workspace = true
-bytes = "1.9.0"
+bytes = "1.11.1"
 futures.workspace = true
-indexmap = "2.7.0"
+indexmap = "2.13.0"
 nom = "8.0.0"
 rust-fsm = "0.8.0"
 strum.workspace = true
-thiserror = "2.0.9"
+thiserror = "2.0.18"
 tokio.workspace = true
 tracing.workspace = true
 uuid.workspace = true
