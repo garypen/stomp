@@ -22,7 +22,7 @@ edition = "2021"
 async-trait = "0.1.89"
 clap = { version = "4.5.58", features = ["derive"] }
 futures = "0.3.32"
-strum = { version = "0.27.2", features = ["derive"] }
+strum = { version = "0.28.0", features = ["derive"] }
 tokio = { version = "1.49.0", features = ["full"] }
 tracing = { version = "0.1.44", features = ["log"] }
 tracing-subscriber = { version = "0.3.22", features = ["env-filter", "json"] }
